@@ -1,5 +1,7 @@
 ---
-- include_tasks: getServer.yml
-
-- name: OS specific
-  include_tasks: "{{ ansible_os_family }}/main.yml"
+- include_tasks: "{{ t }}"
+  loop:
+  - get/Server.yml
+  - "{{ ansible_os_family }}/main.yml"  #OS Specific
+  loop_control:
+    loop_var: t

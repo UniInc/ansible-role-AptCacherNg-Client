@@ -1,11 +1,14 @@
-# https://help.ubuntu.com/community/Apt-Cacher%20NG#Client_setup
+---
+# https://wiki.debian.org/AptCacherNg
 
-- name: Template apt.conf.d proxy
-  ansible.builtin.template:
-    src: proxy.j2
-    dest: /etc/apt/apt.conf.d/proxy
-    owner: root
-    group: root
-    mode: '0644'
+- name: AptCacherNg Client
+  ansible.builtin.apt:
+    pkg:
+      - squid-deb-proxy-client
+      - auto-apt-proxy
+    update_cache: true
   become: true
-  notify: apt update cache
+  when: configuration == "automatic"
+
+- name: apt.conf
+  include_tasks: ../apt.conf proxy.yml

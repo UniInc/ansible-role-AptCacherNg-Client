@@ -12,11 +12,12 @@
   ansible.builtin.apt:
     update_cache: yes
   become: true
+  failed_when: false
 
-# from: Apt update
-#Warning: The unit file, source configuration file or drop-ins of apt-news.service changed on disk. Run 'systemctl daemon-reload' to reload units.
-#Warning: The unit file, source configuration file or drop-ins of esm-cache.service changed on disk. Run 'systemctl daemon-reload' to reload units.
-- name: Reload systemd to pickup apt changes
+# fixes: Apt update =
+# """Warning: The unit file, source configuration file or drop-ins of apt-news.service changed on disk. Run 'systemctl daemon-reload' to reload units.
+# Warning: The unit file, source configuration file or drop-ins of esm-cache.service changed on disk. Run 'systemctl daemon-reload' to reload units."""
+- name: Systemd daemon-reload
   ansible.builtin.systemd_service:
     daemon_reload: true
   become: true

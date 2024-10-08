@@ -1,0 +1,16 @@
+# https://help.ubuntu.com/community/Apt-Cacher%20NG#Client_setup
+
+- name: Template apt.conf.d proxy
+  ansible.builtin.template:
+    src: proxy.j2
+    dest: /etc/apt/apt.conf.d/proxy
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify:
+  - Systemd daemon-reload
+  - apt update cache
+
+- name: Force systemd reload
+  ansible.builtin.meta: flush_handlers
