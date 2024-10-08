@@ -8,12 +8,6 @@
   become: true
   failed_when: false
 
-- name: apt update cache
-  ansible.builtin.apt:
-    update_cache: yes
-  become: true
-  failed_when: false
-
 # fixes: Apt update =
 # """Warning: The unit file, source configuration file or drop-ins of apt-news.service changed on disk. Run 'systemctl daemon-reload' to reload units.
 # Warning: The unit file, source configuration file or drop-ins of esm-cache.service changed on disk. Run 'systemctl daemon-reload' to reload units."""
@@ -21,3 +15,9 @@
   ansible.builtin.systemd_service:
     daemon_reload: true
   become: true
+
+- name: apt update cache
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true
+  failed_when: false

@@ -8,17 +8,17 @@
   loop: "{{ groups['apt_cache_server'] }}"
   when: not ansible_user_id == "vagrant"
 
-- name: Default node on lan (bare metal or virtual)
+- name: server = Node on LAN (bare metal or virtual)
   ansible.builtin.set_fact:
     aptcacher_server: "{{ groups['apt_cache_server'][0] }}"
   when: not ansible_user_id == "vagrant"
 
-- name: Vagrant host
+- name: server = Vagrant
   ansible.builtin.set_fact:
     aptcacher_server: "{{ ansible_default_ipv4.gateway }}"
   when: ansible_user_id == "vagrant" and ansible_virtualization_role == "guest"
 
-- name: Custom Libvirt host
+- name: server = Libvirt
   ansible.builtin.set_fact:
     aptcacher_server: "{{ ansible_default_ipv4.gateway }}"
   when: cache_on_virt_host and ansible_default_ipv4.gateway == "192.168.122.1" and ansible_virtualization_role == "guest"
