@@ -18,13 +18,16 @@
   ansible.builtin.set_fact:
     aptcacher_server: "{{ groups['apt_cacher_server'][0] }}"
   when: not ansible_user_id == "vagrant"
+  notify: Reload systemd to pickup apt changes
 
 - name: Vagrant host
   ansible.builtin.set_fact:
     aptcacher_server: "{{ ansible_default_ipv4.gateway }}"
   when: ansible_user_id == "vagrant" and ansible_virtualization_role == "guest"
+  notify: Reload systemd to pickup apt changes
 
 - name: Custom Libvirt host
   ansible.builtin.set_fact:
     aptcacher_server: "{{ ansible_default_ipv4.gateway }}"
-  when: ansible_default_ipv4.gateway == "192.168.122.1" and ansible_virtualization_role == "guest"
+  when: cache_on_virt_host and ansible_default_ipv4.gateway == "192.168.122.1" and ansible_virtualization_role == "guest"
+  notify: Reload systemd to pickup apt changes

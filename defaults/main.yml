@@ -3,3 +3,6 @@
 configuration: automatic
 
 backup: false
+
+# Set to enable cache on Virtualization Host
+cache_on_virt_host: false
